@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="div1">
+<h1 id="komunikat">Zaczynamy nowa gre. Powodzenia!!!</h1>
+<button onclick="zasady1()" class="buton">Zasady gry</button>
+<h3 id="zasady"></h3>
+<div class="table">
+<table>
+<tr>
+<th>Liczba gier</th><th>Gracz</th><th>Komputer</th>
+</tr>
+<tr>
+<td id="komunikat_l_gier">0</td><td id="punkty_gracz">0</td><td id="punkty_komputer">0</td>
+</tr>
+</table>
+</div>
+<div class="table2">
+<table>
+<td><img src="nożyczki.jpg" id="img1"></td>
+<td><img src="kamien.jpg" id="img2"></td>
+<td><img src="papier.jpg" id="img3"></td>
+</tr>
+<tr>
+<td><button id="guz1" class="buton" onclick="aktualizuj(1)" >Wybieram nozyczki</button></td>
+<td><button id="guz2" class="buton" onclick="aktualizuj(2)" >Wybieram kamien</button></td>
+<td><button id="guz3" class="buton" onclick="aktualizuj(3)" >Wybieram papier</button><br></td>
+</tr>
+</table>
+</div>
+<div class="div2">
+<button id="0" class="b0"  onclick="aktualizuj(0)" >Nowa gra</button>
+<script>
+var przycisk=1;
+var zasady=0;
+let liczba_gier=0;
+let komunikat="";
+let kolor_komunikatu="";
+let wybor_komputer=0,wybor_gracz=0;
+let punkty_gracz=0,punkty_komputer=0;
+let nazwy_wybor=["Nożyczki","Kamień","Papier"];
+function aktualizuj(ktory_przycisk){
+	document.getElementById("img"+przycisk).style="border: 2px solid lightgray";
+	document.getElementById("punkty_gracz").style="border:2px solid lightgray";
+	document.getElementById("punkty_komputer").style="border:2px solid lightgray";
+	if(ktory_przycisk==0){
+		liczba_gier=0;
+		komunikat="Zaczynamy nowa gre. Powodzenia!!!";
+		kolor_komunikatu='darkblue';
+		punkty_gracz=0;
+		punkty_komputer=0;
+	}else {
+	liczba_gier++;
+	wybor_komputer=Math.floor(Math.random()*3)+1;
+	wybor_gracz=ktory_przycisk;
+	if(wybor_gracz==wybor_komputer){
+		komunikat="Remis!!! Wybraliście "+nazwy_wybor[wybor_gracz-1];
+		kolor_komunikatu="orange";
+		punkty_gracz++;
+		punkty_komputer++;
+	}
+	else if(((wybor_gracz==1)&&(wybor_komputer==3)) ||
+	((wybor_gracz==2) && (wybor_komputer==1)) ||
+	((wybor_gracz==3) && (wybor_komputer==2))){
+		punkty_gracz+=3;
+		komunikat="Wygrałeś!!! Wyrałeś "+nazwy_wybor[wybor_gracz-1]+" a komputer wybrał "+ nazwy_wybor[wybor_komputer-1];
+		kolor_komunikatu="green";
+	}
+	else {
+		punkty_komputer+=3;
+		komunikat="Przegrałeś!!! Wybrałeś "+nazwy_wybor[wybor_gracz-1]+" a komputer wybrał "+ nazwy_wybor[wybor_komputer-1];
+		kolor_komunikatu="red";
+	}
+	}
+	document.getElementById("img"+ktory_przycisk).style="border:2px solid black";
+	document.getElementById("komunikat_l_gier").innerHTML=liczba_gier;
+	document.getElementById("komunikat").innerHTML=komunikat;
+	document.getElementById("komunikat").style.color=kolor_komunikatu;
+	document.getElementById("punkty_gracz").innerHTML=punkty_gracz;
+	document.getElementById("punkty_komputer").innerHTML=punkty_komputer;
+	przycisk=ktory_przycisk;
+	if(punkty_gracz>punkty_komputer) document.getElementById("punkty_gracz").style="border:2px solid red";
+	else if (punkty_gracz<punkty_komputer) document.getElementById("punkty_komputer").style="border:2px solid red";
+	else{
+		document.getElementById("punkty_gracz").style="border:2px solid orange";
+		document.getElementById("punkty_komputer").style="border:2px solid orange";
+	}
+	
+}
+
+function zasady1(){
+	if(zasady==0){
+		document.getElementById("zasady").innerHTML="Wybierz kamień, papier, lub nożyczki. Wygrana jest wtedy, kiedy:<br> nożyczki>papier<br>kamień>nożyczki<br>papier>kamień<br> Kiedy wybory są te same następuje remis.<br>Czarna ramka=poprzedni wybór<br>        czerwona ramka=kto wygrywa, pomarańczowa=remis";
+		zasady++;
+	}
+	else {
+		document.getElementById("zasady").innerHTML="";
+		zasady--;
+	}
+}
+</script>
+</div>
+</body>
+</html>
